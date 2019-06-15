@@ -1,16 +1,16 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 
 //serve para conectar alguma informação de algum redurcer dentro do redux
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux"; //Aplica o dispatch em cada função
 import * as TodoActions from "./store/actions/todos";
 
-import Footer from "./Footer";
+import Header from "./Header";
 
 //const TodoList = ({ todos, addTodo, removeTodo }) => {
 //};
 
-// import { Container } from './styles';
+import { Container, Button } from "./styles";
 
 class TodoList extends Component {
   state = { text: "" };
@@ -18,16 +18,15 @@ class TodoList extends Component {
   render() {
     const { addTodo, removeTodo, todos } = this.props;
     return (
-      <>
-        {/* precisa msm fazer um form? */}
-        <form onSubmit={this.handlerAddTodo}>
+      <Container>
+        <form>
           <input
             placeholder="Digite um todo"
             type="text"
             value={this.state.text}
             onChange={e => this.setState({ text: e.target.value })}
           />
-          <button
+          <Button
             onClick={e => {
               e.preventDefault();
               addTodo(this.state.text);
@@ -35,20 +34,20 @@ class TodoList extends Component {
             }}
           >
             Add todo
-          </button>
-          {/* onCLick, coloca a chamada de função dentro de outra, para quando
-        renderizar não chamar a função add todo */}
+          </Button>
         </form>
-        <Footer />
+        {/* onCLick, coloca a chamada de função dentro de outra, para quando
+        renderizar não chamar a função add todo */}
+        <Header />
         <ul>
           {todos.map(todo => (
             <li key={todo.id}>
-              {todo.text}
               <button onClick={() => removeTodo(todo.id)}>Remover</button>
+              {todo.text}
             </li>
           ))}
         </ul>
-      </>
+      </Container>
     );
   }
 }
